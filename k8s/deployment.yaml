@@ -13,8 +13,8 @@ spec:
             app: demo-app
       spec:
         containers:
-        - name: demo-app
-          image:  ACRHERE.azurecr.io/demo-app:v1
+        - name: newappacr
+          image:  wakappregistry.azurecr.io/demo-app:latest
           imagePullPolicy: Always
           readinessProbe:
             httpGet:
