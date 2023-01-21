@@ -6,9 +6,7 @@ on:
   push:
     branches: 
       [ main ]
-    paths:
-    - 'app.js/**'
-    - '.github/workflows/Container-apps.yml'
+    
  
   # Allow mannually trigger 
   workflow_dispatch:      
