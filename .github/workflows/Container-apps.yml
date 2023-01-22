@@ -44,9 +44,11 @@ jobs:
     
     steps:
       - name: Azure Login
-        uses: azure/actions/login@v1
+        uses: azure/login@v1
+        env:
+         CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ env.AZURE_CREDENTIALS }}
  
  
       - name: Deploy to containerapp
