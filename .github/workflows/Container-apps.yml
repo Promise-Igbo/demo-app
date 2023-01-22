@@ -48,7 +48,7 @@ jobs:
         env:
          CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
         with:
-          creds: $'{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+          creds: ${{ env.CREDENTIALS }}
           allow-no-subscriptions: true
  
  
