@@ -72,6 +72,11 @@ jobs:
         run: |
           az aks get-credentials --resource-group ${{ secrets.RESOURCE_GROUP }} --name ${{ secrets.AKS_CLUSTER }}
 
+      - name: Print current directory and list files
+        run: |
+          pwd  # Print the current directory
+          ls -la  # List all files to verify the structure
+
       - name: Apply Kustomization to AKS via Flux
         run: |
           kubectl apply -k ./cluster/

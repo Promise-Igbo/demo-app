@@ -5,7 +5,6 @@ metadata:
   namespace: flux-system
 spec:
   resources:
-    - .../../namespace.yaml    # This will ensure the namespace is created if not already present
-    - deployment-dev.yaml  # Your deployment and other resources for the dev namespace
-    - svc.yaml
-    
+    - ../../namespace.yaml  # This correctly points to the namespace.yaml in the parent directory
+    - deployment-dev.yaml  # Your deployment resource for the dev namespace
+    - svc.yaml  # Your service resource for the dev namespace
