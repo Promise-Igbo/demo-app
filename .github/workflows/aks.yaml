@@ -39,17 +39,19 @@ jobs:
           tags: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}, ${{ secrets.ACR_NAME }}/demo-app:latest
           file: ./Dockerfile
 
-      - name: Update Image Version in GitOps Repo
-        run: |
-          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' demo-app/k8s/dev/deployment-dev.yaml
-          git add demo-app/k8s/dev/deployment-dev.yaml
-          git commit -m "Update image to ${{ github.sha }}"
+      # - name: Update Image Version in GitOps Repo
+      #   run: |
+      #     git clone https://github.com/Promise-Igbo/demo-app.git
+      #     cd demo-app/k8s/dev
+      #     sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' dev/deployment-dev.yaml
+      #     git add dev/deployment-dev.yaml
+      #     git commit -m "Update image to ${{ github.sha }}"
 
-          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' demo-app/k8s/stage/deployment-stage.yaml
-          git add demo-app/k8s/stage/deployment-stage.yaml
-          git commit -m "Update image in stage to ${{ github.sha }}"
+      #     sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' stage/deployment-stage.yaml
+      #     git add stage/deployment-stage.yaml
+      #     git commit -m "Update image in stage to ${{ github.sha }}"
 
-          git push origin main
+      #     git push origin main
 
   deploy:
     runs-on: ubuntu-latest
