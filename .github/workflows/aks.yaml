@@ -79,4 +79,5 @@ jobs:
 
       - name: Apply Kustomization to AKS via Flux
         run: |
-          kubectl apply -k /home/runner/work/demo-app/demo-app/cluster/
+          cd /home/runner/work/demo-app/demo-app
+          kubectl apply -k ./cluster/
