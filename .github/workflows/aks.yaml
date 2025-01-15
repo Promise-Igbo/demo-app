@@ -39,62 +39,38 @@ jobs:
           tags: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}, ${{ secrets.ACR_NAME }}/demo-app:latest
           file: ./Dockerfile
 
-      # - name: Update Image Version in GitOps Repo
-      #   run: |
-      #     git clone https://github.com/Promise-Igbo/demo-app.git
-      #     cd demo-app/k8s/dev
-      #     sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' dev/deployment-dev.yaml
-      #     git add dev/deployment-dev.yaml
-      #     git commit -m "Update image to ${{ github.sha }}"
-
-      #     sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' stage/deployment-stage.yaml
-      #     git add stage/deployment-stage.yaml
-      #     git commit -m "Update image in stage to ${{ github.sha }}"
-
-      #     git push origin main
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Azure Login
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Set up kubectl for AKS
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'v1.21.2'  # You can specify the version you need
-
-      - name: Configure kubectl to access AKS cluster
+      - name: Update Image Version in GitOps Repo
         run: |
-          az aks get-credentials --resource-group ${{ secrets.RESOURCE_GROUP }} --name ${{ secrets.AKS_CLUSTER }}
+          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' ./k8s/dev/deployment-dev.yaml
+          git add ./k8s/dev/deployment-dev.yaml
+          git commit -m "Update image to ${{ github.sha }}"
 
-      - name: Print current directory and list files
-        run: |
-          pwd  # Print the current directory
-          ls -la  # List all files to verify the structure
-      - name: List directory contents
-        run: ls -la /home/runner/work/demo-app/demo-app
+          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' ./k8s/stage/deployment-stage.yaml
+          git add ./k8s/stage/deployment-stage.yaml
+          git commit -m "Update image in stage to ${{ github.sha }}"
 
-      - name: Change to demo-app directory
-        run: cd /home/runner/work/demo-app/demo-app
+          git push origin main
 
-      - name: Verify cluster directory
+      - name: Trigger Flux Sync
         run: |
-          if [ -d "/home/runner/work/demo-app/demo-app/cluster" ]; then
-            echo "Cluster directory exists."
-          else
-            echo "Cluster directory does not exist."
-            exit 1
-          fi
+          flux reconcile kustomization my-app --with-source --namespace flux-system
 
-      - name: Run your commands
-        run: |
-          cd /home/runner/work/demo-app/demo-app/cluster
-        
-      - name: Apply Kustomization to AKS via Flux
-        run: |
-          kubectl apply -k ./cluster/
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+
+  #   steps:
+  #     - name: Azure Login
+  #       uses: Azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  #     - name: Set up kubectl for AKS
+  #       uses: azure/setup-kubectl@v1
+  #       with:
+  #         version: 'v1.21.2'  # You can specify the version you need
+
+  #     - name: Configure kubectl to access AKS cluster
+  #       run: |
+  #         az aks get-credentials --resource-group ${{ secrets.RESOURCE_GROUP }} --name ${{ secrets.AKS_CLUSTER }}
+
