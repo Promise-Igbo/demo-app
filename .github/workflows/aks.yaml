@@ -42,10 +42,15 @@ jobs:
       - name: Update Image Version in GitOps Repo
         run: |
           git clone https://github.com/Promise-Igbo/demo-app.git
-          cd demo-app/k8s/flux-system
-          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' ./deployments/deployment.yaml
-          git add ./deployments/deployment.yaml
+          cd demo-app/k8s
+          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' dev/deployment.yaml
+          git add dev/deployment.yaml
           git commit -m "Update image to ${{ github.sha }}"
+
+          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' stage/deployment.yaml
+          git add stage/deployment.yaml
+          git commit -m "Update image in stage to ${{ github.sha }}"
+          
           git push origin main
 
   deploy:
