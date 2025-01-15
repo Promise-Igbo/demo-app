@@ -76,8 +76,25 @@ jobs:
         run: |
           pwd  # Print the current directory
           ls -la  # List all files to verify the structure
+      - name: List directory contents
+        run: ls -la /home/runner/work/demo-app/demo-app
 
+      - name: Change to demo-app directory
+        run: cd /home/runner/work/demo-app/demo-app
+
+      - name: Verify cluster directory
+        run: |
+          if [ -d "/home/runner/work/demo-app/demo-app/cluster" ]; then
+            echo "Cluster directory exists."
+          else
+            echo "Cluster directory does not exist."
+            exit 1
+          fi
+
+      - name: Run your commands
+        run: |
+          cd /home/runner/work/demo-app/demo-app/cluster
+        
       - name: Apply Kustomization to AKS via Flux
         run: |
-          cd /home/runner/work/demo-app/demo-app
           kubectl apply -k ./cluster/
