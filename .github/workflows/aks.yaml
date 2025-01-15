@@ -72,13 +72,6 @@ jobs:
         run: |
           az aks get-credentials --resource-group ${{ secrets.RESOURCE_GROUP }} --name ${{ secrets.AKS_CLUSTER }}
 
-      - name: Update Deployment manifest
-        run: |
-          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' ./k8s/dev/deployment-dev.yaml
-          git add ./k8s/dev/deployment-dev.yaml
-          git commit -m "Update image to ${{ github.sha }}"
-          git push
-
       - name: Apply Kustomization to AKS via Flux
         run: |
           kubectl apply -k ./cluster/
