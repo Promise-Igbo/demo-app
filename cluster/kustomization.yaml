@@ -25,7 +25,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./k8s/   # Path to where your resources like Namespace and Deployment are
+  path: ../../k8s   # Path to where your resources like Namespace and Deployment are
   prune: true
   sourceRef:
     kind: GitRepository
