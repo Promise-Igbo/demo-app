@@ -74,5 +74,5 @@ jobs:
 
       - name: Deploy to AKS
         run: |
-          kubectl apply -k ./cluster/ 
+          kubectl apply -k demo-app/cluster/ 
         # Automatically applies all resources from the GitOps repo
