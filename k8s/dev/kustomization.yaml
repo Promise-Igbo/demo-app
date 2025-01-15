@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: dev
+  namespace: flux-system
+spec:
+  resources:
+    - .../../namespace.yaml    # This will ensure the namespace is created if not already present
+    - deployment-dev.yaml  # Your deployment and other resources for the dev namespace
+    - svc.yaml
+    

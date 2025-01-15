@@ -1,0 +1,10 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: demo-app-repository
+  namespace: flux-system
+spec:
+  interval: 1m    # Interval to check for new images (can be adjusted)
+  image: "${{ secrets.ACR_NAME }}/demo-app"  # The image path in ACR
+  # secretRef:
+  #   name: acr-secret  # Optional: secret containing credentials for ACR if needed

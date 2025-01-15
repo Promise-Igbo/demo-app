@@ -1,0 +1,16 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: demo-app-image-update
+  namespace: flux-system
+spec:
+  interval: 5m       # Interval for checking image repository
+  update:
+    strategy: Setters  # Choose update strategy: Setters or PruneAndSetters
+  sourceRef:
+    kind: GitRepository
+    name: flux-system   # Reference to the Git repository in flux-system
+  imageRef:
+    name: demo-app-repository  # Reference to the ImageRepository
+  # secretRef:
+  #   name: acr-secret   # Optional: Secret to access ACR (if private)

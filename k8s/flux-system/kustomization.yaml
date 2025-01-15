@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: flux-system
+spec:
+  resources:
+    - image-repository.yaml    # Reference to the ImageRepository for Flux
+    - image-update-automation.yaml # Reference to ImageUpdateAutomation
+    - ../dev/kustomization.yaml  # Reference to the dev environment kustomization
+    - ../stage/kustomization.yaml # Reference to the stage environment kustomization
