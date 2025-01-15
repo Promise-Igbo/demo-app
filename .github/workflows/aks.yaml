@@ -39,17 +39,17 @@ jobs:
           tags: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}, ${{ secrets.ACR_NAME }}/demo-app:latest
           file: ./Dockerfile
 
-      - name: Update Image Version in GitOps Repo
-        run: |
-          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' ./k8s/dev/deployment-dev.yaml
-          git add ./k8s/dev/deployment-dev.yaml
-          git commit -m "Update image to ${{ github.sha }}"
+      # - name: Update Image Version in GitOps Repo
+      #   run: |
+      #     sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' ./k8s/dev/deployment-dev.yaml
+      #     git add ./k8s/dev/deployment-dev.yaml
+      #     git commit -m "Update image to ${{ github.sha }}"
 
-          sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' ./k8s/stage/deployment-stage.yaml
-          git add ./k8s/stage/deployment-stage.yaml
-          git commit -m "Update image in stage to ${{ github.sha }}"
+      #     sed -i 's|image: .*$|image: ${{ secrets.ACR_NAME }}/demo-app:${{ github.sha }}|' ./k8s/stage/deployment-stage.yaml
+      #     git add ./k8s/stage/deployment-stage.yaml
+      #     git commit -m "Update image in stage to ${{ github.sha }}"
 
-          git push origin main
+      #     git push origin main
 
       - name: Trigger Flux Sync
         run: |
