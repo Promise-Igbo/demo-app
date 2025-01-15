@@ -51,6 +51,10 @@ jobs:
 
       #     git push origin main
 
+      - name: Install Flux CLI
+        run: |
+          curl -s https://fluxcd.io/install.sh | sudo bash
+
       - name: Trigger Flux Sync
         run: |
           flux reconcile kustomization my-app --with-source --namespace flux-system
