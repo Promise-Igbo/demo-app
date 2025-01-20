@@ -90,7 +90,11 @@ jobs:
 
       - name: Reconcile Cluster Configuration
         run: |
-          flux reconcile kustomization cluster --with-source
+          flux reconcile kustomization flux-system --with-source
+
+      - name: Reconcile Cluster Configuration
+        run: |
+          flux reconcile kustomization my-app --with-source
 
       - name: Reconcile Dev Environment
         run: |
