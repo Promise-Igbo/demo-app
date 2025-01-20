@@ -5,9 +5,9 @@ on:
   push:
     branches: 
       - main
-    paths:
-      - 'k8s/**'   # Trigger pipeline only if changes are made in the k8s folder
-      - 'cluster/**'
+    # paths:
+    #   - 'k8s/**'   # Trigger pipeline only if changes are made in the k8s folder
+    #   - 'cluster/**'
 
   # Allow manual trigger 
   workflow_dispatch:      
